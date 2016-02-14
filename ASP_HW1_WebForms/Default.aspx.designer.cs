@@ -40,6 +40,15 @@ namespace ASP_HW1_WebForms {
         protected global::System.Web.UI.WebControls.DropDownList dropDownComponentList;
         
         /// <summary>
+        /// image control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image image;
+        
+        /// <summary>
         /// namePanel control.
         /// </summary>
         /// <remarks>
@@ -56,6 +65,24 @@ namespace ASP_HW1_WebForms {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox nameComponentBox;
+        
+        /// <summary>
+        /// infoLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label infoLabel;
+        
+        /// <summary>
+        /// buttonPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel buttonPanel;
         
         /// <summary>
         /// addComponentButton control.

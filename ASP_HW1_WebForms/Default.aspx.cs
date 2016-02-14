@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Homework2;
+using System.Drawing;
 
 namespace ASP_HW1_WebForms
 {
@@ -21,12 +22,12 @@ namespace ASP_HW1_WebForms
             if (IsPostBack)
             {
                 //не первое обращение, берем коллекцию из сессии
-                componentList = (SortedDictionary<string, Component>)Session["Components"];
+                componentList = (Dictionary<string, Component>)Session["Components"];
             }
             else
             {
                 //первое обращение, создаем коллекцию, наполняем по умолчанию
-                componentList = new SortedDictionary<string, Component>();
+                componentList = new Dictionary<string, Component>();
                 componentList.Add("Sony", new TV("Sony"));
                 componentList.Add("Aiwa", new MediaCenter("Aiwa", 88.8));
                 componentList.Add("LG", new Fridge("LG"));
@@ -90,18 +91,33 @@ namespace ASP_HW1_WebForms
             //id++;
             //Session["NextId"] = id;
 
+
             // проверка заполненности
-            //проверка наличия имени
+            // проверка наличия имени
             string name = nameComponentBox.Text;
-            componentList.Add(name, newComponent);
-            сomponentPanel.Controls.Add(new ComponentControl(name, componentList));
-            //Server.Transfer();
 
-        }
+            if (nameComponentBox.Text == "")
+            {
+                infoLabel.ForeColor = Color.Red;
+                infoLabel.Text = "Укажите имя компонента!";
+            }
+            else if (componentList.ContainsKey(name))
+            {
+                infoLabel.ForeColor = Color.Red;
+                infoLabel.Text = "Такое имя уже существует. Укажите другое имя компонента.";
+            }
+            else
+            {
+                infoLabel.Text = "";
+                componentList.Add(name, newComponent);
+                сomponentPanel.Controls.Add(new ComponentControl(name, componentList));
+            }
 
-        protected void Page_PreRender(object sender, EventArgs e)
-        {
+
             Session["Components"] = componentList;
+
         }
+
+        //protected void Page_PreRender(object sender, EventArgs e) {}
     }
 }

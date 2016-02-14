@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Homework2;
+using System.Drawing;
 
 namespace ASP_HW1_WebForms
 {
@@ -45,9 +46,9 @@ namespace ASP_HW1_WebForms
             CssClass = "component-div";
 
             //Controls.Add(Span("Компонент: " + componentList[name].Name + "<br />"));
-            
             infoLabel = new Label();
             infoLabel.Text = componentList[name].Info();
+            infoLabel.ID = "i" + name.ToString();
             Controls.Add(infoLabel);
             Controls.Add(Span("<br />"));
 
@@ -56,11 +57,15 @@ namespace ASP_HW1_WebForms
                 onButton = new Button();
                 onButton.Text = "Вкл";
                 onButton.Click += onButton_Click;
+                onButton.ID = "on" + name.ToString();
+                onButton.BackColor = Color.LightGreen;
                 Controls.Add(onButton);
 
                 offButton = new Button();
                 offButton.Text = "Погасить";
                 offButton.Click += offButton_Click;
+                offButton.ID = "off" + name.ToString();
+                offButton.BackColor = Color.LightPink;
                 Controls.Add(offButton);
             }
 
@@ -71,11 +76,13 @@ namespace ASP_HW1_WebForms
                 openButton = new Button();
                 openButton.Text = "Открыть";
                 openButton.Click += openButton_Click;
+                openButton.ID = "open" + name.ToString();
                 Controls.Add(openButton);
 
                 closeButton = new Button();
                 closeButton.Text = "Закрыть";
                 closeButton.Click += closeButton_Click;
+                closeButton.ID = "close" + name.ToString();
                 Controls.Add(closeButton);
             }
 
@@ -84,11 +91,13 @@ namespace ASP_HW1_WebForms
                 nextButton = new Button();
                 nextButton.Text = "След.канал";
                 nextButton.Click+=nextButton_Click;
+                nextButton.ID = "next" + name.ToString();
                 Controls.Add(nextButton);
 
                 prevButton = new Button();
                 prevButton.Text = "Пред.канал";
                 prevButton.Click += prevButton_Click;
+                prevButton.ID = "prev" + name.ToString();
                 Controls.Add(prevButton);
             }
 
@@ -105,6 +114,7 @@ namespace ASP_HW1_WebForms
                 setButton = new Button();
                 setButton.Text = "Установить";
                 setButton.Click += SetButtonClick;
+                setButton.ID = "set" + name.ToString();
                 Controls.Add(setButton);
             }
 
@@ -119,6 +129,7 @@ namespace ASP_HW1_WebForms
                 setButton = new Button();
                 setButton.Text = "Установить";
                 setButton.Click += SetButtonClick;
+                setButton.ID = "set" + name.ToString();
                 Controls.Add(setButton);
             }
 
@@ -134,6 +145,7 @@ namespace ASP_HW1_WebForms
                 setButton = new Button();
                 setButton.Text = "Установить";
                 setButton.Click += SetButtonClick;
+                setButton.ID = "set" + name.ToString();
                 Controls.Add(setButton);
             }
 
@@ -144,7 +156,16 @@ namespace ASP_HW1_WebForms
             deleteButton = new Button();
             deleteButton.Text = "Удалить";
             deleteButton.Click += DeleteButtonClick;
+            deleteButton.ID = "d" + name.ToString();
             Controls.Add(deleteButton);
+
+            Controls.Add(Span("<br />"));
+
+            //infoLabel = new Label();
+            //infoLabel.Text = componentList[name].Info();
+            //infoLabel.ID = "i" + name.ToString();
+            //Controls.Add(infoLabel);
+            //Controls.Add(Span("<br />"));
         }
 
 
@@ -178,39 +199,53 @@ namespace ASP_HW1_WebForms
         {
             DropDownList dropDownList = new DropDownList();
             dropDownList.Text = value.ToString();
+            //dropDownList.Items.Add(FridgeModes.normal.ToString());
+            //dropDownList.Items.Add(FridgeModes.north.ToString());
+            //dropDownList.Items.Add(FridgeModes.south.ToString());
+            dropDownList.Items.Add("нормальный");
+            dropDownList.Items.Add("северный");
+            dropDownList.Items.Add("южный");
+
             return dropDownList;
         }
 
 
         // обработчики кнопок включения, выключения, открытия, закрытия, переключения каналов
+        // в каждой перерисовываем Info()
         void onButton_Click(object sender, EventArgs e)
         {
             ((IPowerable)componentList[name]).PowerOn();
+            infoLabel.Text = componentList[name].Info();
         }
 
         void offButton_Click(object sender, EventArgs e)
         {
             ((IPowerable)componentList[name]).PowerOff();
+            infoLabel.Text = componentList[name].Info();
         }
 
         void openButton_Click(object sender, EventArgs e)
         {
             ((IOpenable)componentList[name]).Open();
+            infoLabel.Text = componentList[name].Info();
         }
 
         void closeButton_Click(object sender, EventArgs e)
         {
             ((IOpenable)componentList[name]).Close();
+            infoLabel.Text = componentList[name].Info();
         }
 
         void prevButton_Click(object sender, EventArgs e)
         {
             ((TV)componentList[name]).PrevChannel();
+            infoLabel.Text = componentList[name].Info();
         }
 
         void nextButton_Click(object sender, EventArgs e)
         {
             ((TV)componentList[name]).NextChannel();
+            infoLabel.Text = componentList[name].Info();
         }
 
         // Обработчик нажатия кнопки для установки значения
@@ -220,43 +255,41 @@ namespace ASP_HW1_WebForms
             {
                 int v = Convert.ToInt32(volumeBox.Text);
                 ((MediaCenter)componentList[name]).Volume = v;
+                infoLabel.Text = componentList[name].Info();
             }
 
             if (componentList[name] is Oven)
             {
                 int t = Convert.ToInt32(temperBox.Text);
                 ((Oven)componentList[name]).SetTemper(t);
+                infoLabel.Text = componentList[name].Info();
             }
 
             if (componentList[name] is Fridge)
             {
-                string selectedMode = modesList.SelectedValue;
+                switch (modesList.SelectedValue)
+                {   
+                    case ("нормальный"):
+                        ((Fridge)componentList[name]).Normal();
+                        break;
+                    case ("северный"):
+                        ((Fridge)componentList[name]).North();
+                        break;
+                    case ("южный"):
+                        ((Fridge)componentList[name]).South();
+                        break;
+                    default:
+                        break;
+                }
+
+                infoLabel.Text = componentList[name].Info();
                 
+                //string selectedMode = modesList.SelectedValue;
+                //infoLabel.Text += selectedMode;
                 //FridgeModes m = 
                 //((Fridge)componentList[name]).Mode = m;
             }
-
-            //if (figuresDictionary[id] is IRadiusable)
-            //{
-            //    double r = Convert.ToDouble(rTextBox.Text);
-            //    ((IRadiusable)figuresDictionary[id]).R = r;
-            //}
-
-            //if (figuresDictionary[id] is IPerimeterable)
-            //{
-            //    ((IPerimeterable)figuresDictionary[id]).CalcPerimeter();
-            //    double perimeter = ((IPerimeterable)figuresDictionary[id]).Perimeter;
-            //    perimeterLabel.Text = perimeter.ToString();
-            //}
-
-            //if (figuresDictionary[id] is IVolumable)
-            //{
-            //    ((IVolumable)figuresDictionary[id]).CalcVolume();
-            //    double volume = ((IVolumable)figuresDictionary[id]).Volume;
-            //    volumeLabel.Text = volume.ToString();
-            //}
         }
-
 
 
         // Обработчик нажатия кнопки для удаления из коллекции
