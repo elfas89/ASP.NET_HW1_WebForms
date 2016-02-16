@@ -11,6 +11,20 @@
             float: left;
             margin: 3px;
             padding: 3px;
+            background-color: lightgray;
+        }
+        .element-div {
+            border: 1px solid black;
+            float: left;
+            margin-right: 2px;
+            padding: 2px;
+        }
+        .delete-div {
+            border: 2px solid red;
+            float: right;
+            margin: 2px;
+            padding: 2px;
+            font-weight: bold;
         }
     </style>
 </head>

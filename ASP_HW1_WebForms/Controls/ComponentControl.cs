@@ -59,6 +59,7 @@ namespace ASP_HW1_WebForms
                 onButton.Click += onButton_Click;
                 onButton.ID = "on" + name.ToString();
                 onButton.BackColor = Color.LightGreen;
+                onButton.CssClass = "element-div";
                 Controls.Add(onButton);
 
                 offButton = new Button();
@@ -66,6 +67,7 @@ namespace ASP_HW1_WebForms
                 offButton.Click += offButton_Click;
                 offButton.ID = "off" + name.ToString();
                 offButton.BackColor = Color.LightPink;
+                offButton.CssClass = "element-div";
                 Controls.Add(offButton);
             }
 
@@ -77,12 +79,14 @@ namespace ASP_HW1_WebForms
                 openButton.Text = "Открыть";
                 openButton.Click += openButton_Click;
                 openButton.ID = "open" + name.ToString();
+                openButton.CssClass = "element-div";
                 Controls.Add(openButton);
 
                 closeButton = new Button();
                 closeButton.Text = "Закрыть";
                 closeButton.Click += closeButton_Click;
                 closeButton.ID = "close" + name.ToString();
+                closeButton.CssClass = "element-div";
                 Controls.Add(closeButton);
             }
 
@@ -92,20 +96,21 @@ namespace ASP_HW1_WebForms
                 nextButton.Text = "След.канал";
                 nextButton.Click+=nextButton_Click;
                 nextButton.ID = "next" + name.ToString();
+                nextButton.CssClass = "element-div";
                 Controls.Add(nextButton);
 
                 prevButton = new Button();
                 prevButton.Text = "Пред.канал";
                 prevButton.Click += prevButton_Click;
                 prevButton.ID = "prev" + name.ToString();
+                prevButton.CssClass = "element-div";
                 Controls.Add(prevButton);
             }
-
-            //Controls.Add(Span("<br />"));
 
             if (componentList[name] is MediaCenter)
             {
                 Controls.Add(Span("Громкость: "));
+
                 int volume = ((MediaCenter)componentList[name]).Volume;
                 volumeBox = TextBox(volume);
                 volumeBox.ID = "v" + name.ToString();
@@ -157,15 +162,11 @@ namespace ASP_HW1_WebForms
             deleteButton.Text = "Удалить";
             deleteButton.Click += DeleteButtonClick;
             deleteButton.ID = "d" + name.ToString();
+            deleteButton.CssClass = "delete-div";
             Controls.Add(deleteButton);
 
             Controls.Add(Span("<br />"));
 
-            //infoLabel = new Label();
-            //infoLabel.Text = componentList[name].Info();
-            //infoLabel.ID = "i" + name.ToString();
-            //Controls.Add(infoLabel);
-            //Controls.Add(Span("<br />"));
         }
 
 
@@ -186,22 +187,12 @@ namespace ASP_HW1_WebForms
             return textBox;
         }
 
-        ////рисуем лейбл
-        //protected Label Label(double value)
-        //{
-        //    Label label = new Label();
-        //    label.Text = value.ToString();
-        //    return label;
-        //}
 
         //рисуем выпадающий список
         protected DropDownList DropDownList(FridgeModes value)
         {
             DropDownList dropDownList = new DropDownList();
             dropDownList.Text = value.ToString();
-            //dropDownList.Items.Add(FridgeModes.normal.ToString());
-            //dropDownList.Items.Add(FridgeModes.north.ToString());
-            //dropDownList.Items.Add(FridgeModes.south.ToString());
             dropDownList.Items.Add("нормальный");
             dropDownList.Items.Add("северный");
             dropDownList.Items.Add("южный");
@@ -211,7 +202,7 @@ namespace ASP_HW1_WebForms
 
 
         // обработчики кнопок включения, выключения, открытия, закрытия, переключения каналов
-        // в каждой перерисовываем Info()
+        // в каждой перерисовываем Info() компонента
         void onButton_Click(object sender, EventArgs e)
         {
             ((IPowerable)componentList[name]).PowerOn();
@@ -284,10 +275,6 @@ namespace ASP_HW1_WebForms
 
                 infoLabel.Text = componentList[name].Info();
                 
-                //string selectedMode = modesList.SelectedValue;
-                //infoLabel.Text += selectedMode;
-                //FridgeModes m = 
-                //((Fridge)componentList[name]).Mode = m;
             }
         }
 
